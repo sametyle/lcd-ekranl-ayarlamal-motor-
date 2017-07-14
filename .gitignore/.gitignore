@@ -1,0 +1,31 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12,11,5,4,3,2);
+int motorPin = 10;
+int hizz;
+ 
+void setup() 
+{ 
+  pinMode(motorPin, OUTPUT);
+  Serial.begin(9600);
+  while (! Serial);
+  Serial.println("0 ile 255 arasi hiz giriniz");
+  lcd.begin(16,2);
+} 
+  
+void loop() 
+{ 
+  if (Serial.available())
+  {
+    int hiz = Serial.parseInt();
+    if (hiz >= 0 && hiz <= 255)
+    {
+      hizz=hiz;
+      lcd.clear();
+      hizz=map (hizz,0,255,0,100);
+      analogWrite(motorPin, hiz);
+      lcd.print("HIZ : %");
+lcd.print(hizz);
+
+    }
+  }
+}
